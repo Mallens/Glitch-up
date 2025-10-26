@@ -1,6 +1,7 @@
-// server/wallet.ts (Revised for ASYNC Database Operations)
+// server/src/wallet.ts (Revised for ASYNC Database Operations)
 
-import { PlayerId } from './match_manager.js';
+// FIX: Use 'import type' for PlayerId and remove the .ts extension 
+import type { PlayerId } from './match_manager.ts'; 
 import mongoose, { Schema, Document } from 'mongoose'; // Database imports
 
 // --- MongoDB Setup (Replace with your actual connection string) ---

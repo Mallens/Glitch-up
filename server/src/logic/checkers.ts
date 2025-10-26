@@ -2,6 +2,7 @@
 
 export type Piece = 0 | 1 | 2 | -1 | -2;
 
+// Explicitly define State and Move as exported interfaces/types
 export interface State {
   board: Piece[];
   currentPlayer: 1 | -1;
@@ -80,7 +81,7 @@ function findNormalMovesFrom(board: Piece[], idx: number): Move[] {
   const { r, c } = indexToRC(idx);
 
   const directions = king ? [[1,1],[1,-1],[-1,1],[-1,-1]] :
-    (owner === 1 ? [[-1,-1],[-1,1]] : [[1,-1],[-1,1]]);
+    (owner === 1 ? [[-1,-1],[-1,1]] : [[1,-1],[1,1]]); // FIX: Player -1 moves down, so [1,-1], [1,1]
 
   for (const [dr, dc] of directions) {
     const nr = r + dr, nc = c + dc;
@@ -130,7 +131,13 @@ function findCapturesFrom(boardOrig: Piece[], startIdx: number): Move[] {
     }
 
     if (!foundAny && captured.length > 0) {
-      results.push({ seq: path.slice(), captures: captured.slice() });
+      // Check if this path is already covered by a longer jump sequence
+      const isOptimal = results.every(existing => 
+          existing.captures.length <= captured.length || (existing.captures.length === captured.length && existing.seq.join(',') >= path.join(','))
+      );
+      if (isOptimal) {
+          results.push({ seq: path.slice(), captures: captured.slice() });
+      }
     }
   }
 
