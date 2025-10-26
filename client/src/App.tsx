@@ -149,11 +149,9 @@ export default function App() {
         <div>
           <Board
             matchId={matchId}
-            stateBoard={matchState ? matchState.state.board : null}
+            playerId={playerId}
+            initialBoard={matchState ? matchState.state.board : null}
             currentPlayer={matchState ? matchState.state.currentPlayer : null}
-            selectedIdx={selectedIdx}
-            onSelectPiece={onSelectPiece}
-            onAttemptMove={attemptMove}
           />
         </div>
 
